@@ -3,7 +3,7 @@ const router = express.Router();
 const mysql = require('mysql2');
 
 // **Pelanggan: Melihat detail pesanan berdasarkan NoTelp**
-router.get('/pesanan/:noTelp', (req, res) => {
+router.get('/order/:noTelp', (req, res) => {
     const { noTelp } = req.params;
 
     db.query(
@@ -13,14 +13,14 @@ router.get('/pesanan/:noTelp', (req, res) => {
             if (err) return res.status(500).json({ error: err.message });
             if (results.length === 0) {
                 return res.status(404).json({ message: 'Pesanan tidak ditemukan' });
-            }
+            }s
             res.status(200).json(results);
         }
     );
 });
 
 // **Pelanggan: Menambahkan pesanan baru**
-router.post('/pesanan', (req, res) => {
+router.post('/order', (req, res) => {
     const { nama, noTelp } = req.body;
 
     if (!nama || !noTelp) {
