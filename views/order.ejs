@@ -59,7 +59,13 @@
                     <div class="mb-3">
                         <label for="orderProductName" class="form-label">Nama Paket</label>
                         <select class="form-select" id="orderProductName" required>
-                            <!-- Option produk akan dimuat di sini -->
+                            <!-- Example Flower Packages -->
+                            <option value="" disabled selected>Pilih Produk</option>
+                            <option value="Bucket Mawar">Bucket Mawar</option>
+                            <option value="Bucket Lily">Bucket Lily</option>
+                            <option value="Bucket Daisy">Bucket Daisy</option>
+                            <option value="Bucket Tulip">Bucket Tulip</option>
+                            <option value="Bucket Orchid">Bucket Orchid</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -84,7 +90,7 @@ $(document).ready(function () {
             productStockList.html('');
             products.forEach(product => {
                 const row = `<tr>
-                    <td>${product.nama_paket}</td>
+                    <td>${product.namapaket}</td>
                     <td>${product.stok}</td>
                     <td>Rp. ${product.harga}</td>
                 </tr>`;
@@ -94,6 +100,7 @@ $(document).ready(function () {
             alert('Gagal memuat data produk');
         });
     }
+
     // Memuat data pesanan dari server
     function loadOrders() {
         $.get('/api/orders', function (orders) {
@@ -102,7 +109,7 @@ $(document).ready(function () {
             orders.forEach(order => {
                 const row = `<tr>
                     <td>${order.id}</td>
-                    <td>${order.nama_paket}</td>
+                    <td>${order.namapaket}</td>
                     <td>${order.jumlah}</td>
                     <td>Rp. ${order.total_harga}</td>
                     <td>
@@ -123,7 +130,12 @@ $(document).ready(function () {
         const productName = $('#orderProductName').val();
         const quantity = $('#orderQuantity').val();
 
-        $.post('/api/orders', { nama_paket: productName, jumlah: quantity }, function () {
+        if (!productName) {
+            alert('Silakan pilih produk terlebih dahulu!');
+            return;
+        }
+
+        $.post('/api/orders', { namapaket: productName, jumlah: quantity }, function () {
             loadOrders();
             $('#orderModal').modal('hide');
         }).fail(function () {
@@ -131,23 +143,9 @@ $(document).ready(function () {
         });
     });
 
-    // Memuat pilihan produk untuk pesanan
-    function loadProductOptions() {
-        $.get('/api/products', function (products) {
-            const productSelect = $('#orderProductName');
-            productSelect.html('');
-            products.forEach(product => {
-                productSelect.append(<option value="${product.nama_paket}">${product.nama_paket}</option>);
-            });
-        }).fail(function () {
-            alert('Gagal memuat pilihan produk');
-        });
-    }
-
     // Memuat data saat halaman dimuat
     loadProductStock();
     loadOrders();
-    loadProductOptions();
 });
 </script>
 

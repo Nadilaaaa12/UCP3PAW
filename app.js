@@ -15,7 +15,7 @@ app.set('view engine', 'ejs');
 
 // Route untuk halaman utama (pelanggan)
 app.get('/', (req, res) => {
-    res.render('index', {
+    res.render('login', {
         layout: 'layouts/main-layout'
     });
 });
