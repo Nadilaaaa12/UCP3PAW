@@ -2,6 +2,7 @@ const express = require("express");
 const db = require("../database/db");
 const router = express.Router();
 
+<<<<<<< HEAD
 // Get semua produk
 router.get("/products", (req, res) => {
     db.query("SELECT * FROM products", (err, results) => {
@@ -17,6 +18,28 @@ router.get("/orders", (req, res) => {
         res.json(results);
     });
 });
+=======
+// **Pelanggan: Melihat detail pesanan berdasarkan NoTelp**
+router.get('/order/:noTelp', (req, res) => {
+    const { noTelp } = req.params;
+
+    db.query(
+        'SELECT * FROM `order` WHERE noTelp = ?',
+        [noTelp],
+        (err, results) => {
+            if (err) return res.status(500).json({ error: err.message });
+            if (results.length === 0) {
+                return res.status(404).json({ message: 'Pesanan tidak ditemukan' });
+            }s
+            res.status(200).json(results);
+        }
+    );
+});
+
+// **Pelanggan: Menambahkan pesanan baru**
+router.post('/order', (req, res) => {
+    const { nama, noTelp } = req.body;
+>>>>>>> ea15426f3aaf04b1d0385b7591cc7fab98af2356
 
 // Tambah pesanan
 router.post("/orders", (req, res) => {

@@ -21,7 +21,6 @@
                 <th>ID Pesanan</th>
                 <th>Nama Paket</th>
                 <th>Jumlah</th>
-                <th>Total Harga</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -111,7 +110,6 @@ $(document).ready(function () {
                     <td>${order.id}</td>
                     <td>${order.namapaket}</td>
                     <td>${order.jumlah}</td>
-                    <td>Rp. ${order.total_harga}</td>
                     <td>
                         <button class="btn btn-warning btn-sm" onclick="editOrder(${order.id})">Edit</button>
                         <button class="btn btn-danger btn-sm" onclick="deleteOrder(${order.id})">Hapus</button>
@@ -130,11 +128,14 @@ $(document).ready(function () {
         const productName = $('#orderProductName').val();
         const quantity = $('#orderQuantity').val();
 
+<<<<<<< HEAD
         if (!productName) {
             alert('Silakan pilih produk terlebih dahulu!');
             return;
         }
 
+=======
+>>>>>>> ea15426f3aaf04b1d0385b7591cc7fab98af2356
         $.post('/api/orders', { namapaket: productName, jumlah: quantity }, function () {
             loadOrders();
             $('#orderModal').modal('hide');
@@ -143,6 +144,22 @@ $(document).ready(function () {
         });
     });
 
+<<<<<<< HEAD
+=======
+    // Memuat pilihan produk untuk pesanan
+    function loadProductOptions() {
+        $.get('/api/products', function (products) {
+            const productSelect = $('#orderProductName');
+            productSelect.html('');
+            products.forEach(product => {
+                productSelect.append(`<option value="${product.namapaket}">${product.namapaket}</option>`);
+            });
+        }).fail(function () {
+            alert('Gagal memuat pilihan produk');
+        });
+    }
+
+>>>>>>> ea15426f3aaf04b1d0385b7591cc7fab98af2356
     // Memuat data saat halaman dimuat
     loadProductStock();
     loadOrders();

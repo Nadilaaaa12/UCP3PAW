@@ -3,7 +3,7 @@ const router = express.Router();
 const mysql = require('mysql2');
 
 // **Melihat stok produk**
-router.get('/stok', authenticateAdmin, (req, res) => {
+router.get('/produk', authenticateAdmin, (req, res) => {
     db.query('SELECT * FROM produk', (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
         res.status(200).json(results);
@@ -11,11 +11,11 @@ router.get('/stok', authenticateAdmin, (req, res) => {
 });
 
 // **Menambahkan stok baru**
-router.post('/stok', authenticateAdmin, (req, res) => {
-    const { nama_paket, stok, harga } = req.body;
+router.post('/produk', authenticateAdmin, (req, res) => {
+    const { namapaket, stok, harga } = req.body;
     db.query(
-        'INSERT INTO produk (nama_paket, stok, harga) VALUES (?, ?, ?)',
-        [nama_paket, stok, harga],
+        'INSERT INTO produk (namapaket, stok, harga) VALUES (?, ?, ?)',
+        [namapaket, stok, harga],
         (err, results) => {
             if (err) return res.status(500).json({ error: err.message });
             res.status(201).json({ message: 'Stok baru berhasil ditambahkan', id: results.insertId });
@@ -24,13 +24,13 @@ router.post('/stok', authenticateAdmin, (req, res) => {
 });
 
 // **Memperbarui stok produk**
-router.put('/stok/:id', authenticateAdmin, (req, res) => {
+router.put('/produk/:id', authenticateAdmin, (req, res) => {
     const { id } = req.params;
-    const { nama_paket, stok, harga } = req.body;
+    const { namapaket, stok, harga } = req.body;
 
     db.query(
-        'UPDATE produk SET nama_paket = ?, stok = ?, harga = ? WHERE id = ?',
-        [nama_paket, stok, harga, id],
+        'UPDATE produk SET namapaket = ?, stok = ?, harga = ? WHERE id = ?',
+        [namapaket, stok, harga, id],
         (err, results) => {
             if (err) return res.status(500).json({ error: err.message });
             if (results.affectedRows === 0) {
@@ -42,7 +42,7 @@ router.put('/stok/:id', authenticateAdmin, (req, res) => {
 });
 
 // **Menghapus stok produk**
-router.delete('/stok/:id', authenticateAdmin, (req, res) => {
+router.delete('/produk/:id', authenticateAdmin, (req, res) => {
     const { id } = req.params;
 
     db.query('DELETE FROM produk WHERE id = ?', [id], (err, results) => {
@@ -55,18 +55,18 @@ router.delete('/stok/:id', authenticateAdmin, (req, res) => {
 });
 
 // **Melihat semua pesanan**
-router.get('/pesanan', authenticateAdmin, (req, res) => {
-    db.query('SELECT * FROM pesanan', (err, results) => {
+router.get('/order', authenticateAdmin, (req, res) => {
+    db.query('SELECT * FROM order', (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
         res.status(200).json(results);
     });
 });
 
 // **Menghapus pesanan**
-router.delete('/pesanan/:id', authenticateAdmin, (req, res) => {
+router.delete('/order/:id', authenticateAdmin, (req, res) => {
     const { id } = req.params;
 
-    db.query('DELETE FROM pesanan WHERE id = ?', [id], (err, results) => {
+    db.query('DELETE FROM order WHERE id = ?', [id], (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
         if (results.affectedRows === 0) {
             return res.status(404).json({ message: 'Pesanan tidak ditemukan' });

@@ -4,10 +4,10 @@ const db = require('../database/db'); // Mengimpor koneksi database
 
 
 // Fungsi untuk menambahkan stok produk baru
-const addStok = (nama_paket, stok, harga, callback) => {
+const addStok = (namapaket, stok, harga, callback) => {
     db.query(
-        'INSERT INTO produk (nama_paket, stok, harga) VALUES (?, ?, ?)',
-        [nama_paket, stok, harga],
+        'INSERT INTO produk (namapaket, stok, harga) VALUES (?, ?, ?)',
+        [namapaket, stok, harga],
         (err, results) => {
             if (err) {
                 console.error(err);
@@ -30,10 +30,10 @@ const getStok = (callback) => {
 };
 
 // Fungsi untuk memperbarui stok produk
-const updateStok = (id, nama_paket, stok, harga, callback) => {
+const updateStok = (id, namapaket, stok, harga, callback) => {
     db.query(
-        'UPDATE produk SET nama_paket = ?, stok = ?, harga = ? WHERE id = ?',
-        [nama_paket, stok, harga, id],
+        'UPDATE produk SET namapaket = ?, stok = ?, harga = ? WHERE id = ?',
+        [namapaket, stok, harga, id],
         (err, results) => {
             if (err) {
                 console.error(err);
@@ -63,7 +63,7 @@ const deleteStok = (id, callback) => {
 
 // Fungsi untuk melihat semua pesanan
 const getPesanan = (callback) => {
-    db.query('SELECT * FROM pesanan', (err, results) => {
+    db.query('SELECT * FROM order', (err, results) => {
         if (err) {
             console.error(err);
             return callback(err, null);
@@ -74,7 +74,7 @@ const getPesanan = (callback) => {
 
 // Fungsi untuk menghapus pesanan berdasarkan ID
 const deletePesanan = (id, callback) => {
-    db.query('DELETE FROM pesanan WHERE id = ?', [id], (err, results) => {
+    db.query('DELETE FROM order WHERE id = ?', [id], (err, results) => {
         if (err) {
             console.error(err);
             return callback(err, null);
